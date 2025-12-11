@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}Le tue spese{% endblock %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">Le tue spese</h1>
+
+<p class="mb-4">
+    Totale mese corrente:
+    <span class="font-bold">€ {{ month_total|floatformat:2 }}</span>
+</p>
+
+<div class="grid md:grid-cols-2 gap-6">
+    <!-- Form -->
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-3">Aggiungi nuova spesa</h2>
+        <form method="post" class="space-y-3">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div>
+                {{ form.date.label_tag }}
+                {{ form.date }}
+            </div>
+            <div>
+                {{ form.time.label_tag }}
+                {{ form.time }}
+            </div>
+            <div>
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+            <div>
+                {{ form.category.label_tag }}
+                {{ form.category }}
+            </div>
+            <div>
+                {{ form.amount.label_tag }}
+                {{ form.amount }}
+            </div>
+
+            <button type="submit"
+                    class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">
+                Salva
+            </button>
+        </form>
+    </div>
+
+    <!-- Tabella -->
+    <div class="bg-white p-4 rounded shadow">
+        <h2 class="font-semibold mb-3">Storico</h2>
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="border-b text-left text-gray-500">
+                    <th class="py-2">Data</th>
+                    <th>Descrizione</th>
+                    <th>Categoria</th>
+                    <th>Importo</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for expense in expenses %}
+                <tr class="border-b last:border-0">
+                    <td class="py-2">{{ expense.date|date:"d/m/Y" }}</td>
+                    <td>{{ expense.description }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td class="font-semibold">€ {{ expense.amount }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="py-4 text-center text-gray-500">
+                        Nessuna spesa ancora. Inizia ad aggiungerne una!
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

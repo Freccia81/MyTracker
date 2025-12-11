@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}MyTracker{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+<nav class="bg-white shadow mb-8">
+    <div class="max-w-4xl mx-auto px-4 py-4 flex justify-between">
+        <a href="/" class="font-bold text-blue-600">MyTracker</a>
+        <div>
+            {% if user.is_authenticated %}
+                <span class="mr-4">Ciao, {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}" class="inline">
+                 {% csrf_token %}
+                 <button type="submit" class="text-red-500 hover:text-red-700">
+                 Logout
+                 </button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-blue-600 mr-4">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-4xl mx-auto px-4">
+    {% block content %}{% endblock %}
+</div>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

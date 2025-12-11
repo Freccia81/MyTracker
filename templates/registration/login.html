@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow p-6 rounded">
+    <h1 class="text-2xl font-bold mb-4">Accedi</h1>
+
+    {% if form.errors %}
+        <p class="text-red-600 mb-4">
+            Username o password non validi. Riprova.
+        </p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Username</label>
+            {{ form.username }}
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">Password</label>
+            {{ form.password }}
+        </div>
+        <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 font-bold"
+        >
+            Entra
+        </button>
+    </form>
+</div>
+{% endblock %}
