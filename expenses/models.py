@@ -2,6 +2,7 @@
 
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -38,3 +39,10 @@ class Expense(models.Model):
 
     def __str__(self):
         return f"{self.description} - {self.amount} €"
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    reason = models.TextField(blank=True)
+
+    def __str__(self):
+        return f"Profilo di {self.user.username}"
